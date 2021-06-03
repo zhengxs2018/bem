@@ -62,7 +62,7 @@ has('error', { danger: true, warning: false })
 import BEM, { component } from '@zhengxs/bem'
 
 // 修改全局命名空间
-BEM.config.namespace.component = 'md'
+BEM.namespace.component = 'md'
 
 component('button')
 // -> md-button
