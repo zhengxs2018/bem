@@ -1,6 +1,6 @@
 {
   "name": "@zhengxs/bem",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "助手函数",
   "main": "./dist/bem.common.js",
   "module": "./dist/bem.esm.js",
