@@ -1,0 +1,22 @@
+.DS_Store
+
+node_modules
+
+coverage
+
+cypress/results/
+cypress/videos/
+cypress/screenshots/
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+.idea
+.history/
+
+dist/
+dist-doc/
+temp/
+

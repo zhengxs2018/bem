@@ -1,0 +1,7 @@
+.history/
+
+dist/
+dist-doc/
+
+coverage/
+temp/

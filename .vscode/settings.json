@@ -1,0 +1,24 @@
+{
+  "search.followSymlinks": false,
+  "search.exclude": {
+    ".history/": true,
+    "dist/": true
+  },
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1500,
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "files.eol": "\n",
+  "files.watcherExclude": {
+    ".history/": true
+  },
+  "cSpell.ignoreWords": [
+    "commitlint",
+    "tsdoc",
+    "typedoc"
+  ],
+  "cSpell.words": [
+    "postbuild",
+    "prebuild"
+  ]
+}
