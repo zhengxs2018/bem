@@ -138,13 +138,18 @@ has('error')
 // ["has--error"]
 ```
 
-### 在线运行
+## 在线运行
 
 ```js
-const { component, element, modifier, state, is, has } = require('@zhengxs/bem')
+const bem = require('@zhengxs/bem')
+
+const { component, element, modifier, state, is, has } = bem
+
+// 命名空间
+bem.namespace.component = 'md'
 
 component('button')
-// c-button
+// md-button
 
 element(
   'cell',
@@ -178,4 +183,4 @@ has('error', { danger: true, warning: false })
 
 ## License
 
-MIT
+- MIT
