@@ -4,11 +4,11 @@ import BEM, { state } from '../../src/index'
 
 describe('bem/state', () => {
   it('state(String)', () => {
-    expect(state('is', 'loading')).to.deep.equal(['is-loading'])
+    expect(state('is', 'loading')).to.deep.equal('is-loading')
   })
 
   it('state(Number)', () => {
-    expect(state('is', 0)).to.deep.equal(['is-0'])
+    expect(state('is', 0)).to.deep.equal('is-0')
   })
 
   it('state(Falsy)', () => {
@@ -40,11 +40,11 @@ describe('bem/state', () => {
     expect(result).to.deep.equal(expected)
   })
 
-  it('state(globalConfig)', () => {
-    expect(state('is', 'readonly')).to.deep.equal(['is-readonly'])
+  it('state(config#separator.state)', () => {
+    expect(state('is', 'readonly')).to.deep.equal('is-readonly')
 
     BEM.separator.state = '-'
 
-    expect(state('is', 'readonly')).to.deep.equal(['is-readonly'])
+    expect(state('is', 'readonly')).to.deep.equal('is-readonly')
   })
 })

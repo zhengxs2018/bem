@@ -1,38 +1,26 @@
 /// <reference types="@types/jest" />
 
-jest.mock('../src/config')
+import { is } from '../src/index'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
 test('is(String)', function () {
-  // eslint-disable-next-line
-  const { is } = require('../src/bem')
-
-  expect(is('loading')).toStrictEqual(['is-loading'])
+  expect(is('loading')).toStrictEqual('is-loading')
 })
 
 test('is(Number)', function () {
-  // eslint-disable-next-line
-  const { is } = require('../src/bem')
-
-  expect(is(0)).toStrictEqual(['is-0'])
+  expect(is(0)).toStrictEqual('is-0')
 })
 
 test('is(Falsy)', function () {
-  // eslint-disable-next-line
-  const { is } = require('../src/bem')
-
   expect(is(false)).toStrictEqual([])
   expect(is(null)).toStrictEqual([])
   expect(is(undefined)).toStrictEqual([])
 })
 
 test('is(Object)', function () {
-  // eslint-disable-next-line
-  const { is } = require('../src/bem')
-
   const result = is({ loading: true, disabled: false })
   const expected = ['is-loading']
 
@@ -40,9 +28,6 @@ test('is(Object)', function () {
 })
 
 test('is(Primitives)', function () {
-  // eslint-disable-next-line
-  const { is } = require('../src/bem')
-
   const result = is(
     { loading: true, disabled: false },
     [['doc'], { bar: true, test: false }],
@@ -57,26 +42,17 @@ test('is(Primitives)', function () {
   expect(result).toStrictEqual(expected)
 })
 
-test('is(globalConfig)', function () {
+test('is(separator)', function () {
   jest.doMock('../src/config', () => {
-    return {
-      separator: {
-        element: '__',
-        modifier: '--',
-        state: '-',
-      },
-    }
+    return { separator: { state: '-' } }
   })
 
   // eslint-disable-next-line
-  const config = require('../src/config')
+  const { separator, is } = require('../src/index')
 
-  // eslint-disable-next-line
-  const { is } = require('../src/bem')
+  expect(is('readonly')).toStrictEqual('is-readonly')
 
-  expect(is('readonly')).toStrictEqual(['is-readonly'])
+  separator.state = '__'
 
-  config.separator.state = '__'
-
-  expect(is('readonly')).toStrictEqual(['is__readonly'])
+  expect(is('readonly')).toStrictEqual('is__readonly')
 })

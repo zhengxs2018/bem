@@ -1,5 +1,5 @@
-import { namespace as NamespaceEnum } from './config'
-import { explode } from './functions'
+import { separator, namespace } from './config'
+import { implode } from './implode'
 
 import type { Argument } from './types'
 
@@ -8,8 +8,8 @@ import type { Argument } from './types'
  *
  * @public
  *
- * @param name       - 组件名称
- * @param namespace  - 命名空间
+ * @param name    - 名称
+ * @param prefix  - 前缀
  *
  * @returns CSS类名
  *
@@ -23,8 +23,8 @@ import type { Argument } from './types'
  * // -> "md-button"
  * ```
  */
-export function component(name: string, namespace?: string): string {
-  return [namespace || NamespaceEnum['component'], name].join('-')
+export function component(name: string, prefix?: string): string {
+  return [prefix || namespace['component'], name].join('-')
 }
 
 /**
@@ -53,12 +53,14 @@ export function component(name: string, namespace?: string): string {
  * @example <caption>多参数</caption>
  *
  * ```ts
- * element('button', { icon: true, text: false }, 'demo', [['doc']])
+ * element('button', { icon: true, text: false }, 'demo', [['doc']], null, undefined, false)
  * // -> ["button__icon", "button__demo", "button__doc"]
  * ```
  */
-export function element(block: string, ...args: Argument[]): string[] {
-  return explode(block, args, 'element')
+export function element(prefix: string, value: string | number): string
+export function element(prefix: string, ...args: Argument[]): string[]
+export function element(prefix: string, ...args: Argument[]): string | string[] {
+  return implode(prefix, args.length === 1 ? args[0] : args, separator['element'])
 }
 
 /**
@@ -87,12 +89,14 @@ export function element(block: string, ...args: Argument[]): string[] {
  * @example <caption>多参数</caption>
  *
  * ```ts
- * modifier('button', { default: true, primary: false }, 'demo', [['doc']])
+ * modifier('button', { default: true, primary: false }, 'demo', [['doc']], null, undefined, false)
  * // -> ["button--default", "button--demo", "button--doc"]
  * ```
  */
-export function modifier(block: string, ...args: Argument[]): string[] {
-  return explode(block, args, 'modifier')
+export function modifier(prefix: string, value: string | number): string
+export function modifier(prefix: string, ...args: Argument[]): string[]
+export function modifier(prefix: string, ...args: Argument[]): string | string[] {
+  return implode(prefix, args.length === 1 ? args[0] : args, separator['modifier'])
 }
 
 /**
@@ -121,12 +125,14 @@ export function modifier(block: string, ...args: Argument[]): string[] {
  * @example <caption>多参数</caption>
  *
  * ```ts
- * state('is', { loading: true, disabled: false }, 'demo', [['doc']])
+ * state('is', { loading: true, disabled: false }, 'demo', [['doc']], null, undefined, false)
  * // -> ["is-loading", "is-demo", "is-doc"]
  * ```
  */
-export function state(namespace: string, ...args: Argument[]): string[] {
-  return explode(namespace, args, 'state')
+export function state(prefix: string, value: string | number): string
+export function state(prefix: string, ...args: Argument[]): string[]
+export function state(prefix: string, ...args: Argument[]): string | string[] {
+  return implode(prefix, args.length === 1 ? args[0] : args, separator['state'])
 }
 
 /**
@@ -154,12 +160,14 @@ export function state(namespace: string, ...args: Argument[]): string[] {
  * @example <caption>多参数</caption>
  *
  * ```ts
- * is({ loading: true, disabled: false }, 'demo', [['doc']])
+ * is({ loading: true, disabled: false }, 'demo', [['doc']], null, undefined, false)
  * // -> ["is-loading", "is-demo", "is-doc"]
  * ```
  */
-export function is(...args: Argument[]): string[] {
-  return state('is', args)
+export function is(value: string | number): string
+export function is(...args: Argument[]): string[]
+export function is(...args: Argument[]): string | string[] {
+  return state('is', ...args)
 }
 
 /**
@@ -187,10 +195,12 @@ export function is(...args: Argument[]): string[] {
  * @example <caption>多参数</caption>
  *
  * ```ts
- * has({ success: true, error: false }, 'demo', [['doc']])
+ * has({ success: true, error: false }, 'demo', [['doc']], null, undefined, false)
  * // -> ["has-success", "has-demo", "has-doc"]
  * ```
  */
-export function has(...args: Argument[]): string[] {
-  return state('has', args)
+export function has(value: string | number): string
+export function has(...args: Argument[]): string[]
+export function has(...args: Argument[]): string | string[] {
+  return state('has', ...args)
 }

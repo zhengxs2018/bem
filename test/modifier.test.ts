@@ -1,38 +1,26 @@
 /// <reference types="@types/jest" />
 
-jest.mock('../src/config')
+import { modifier } from '../src/index'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
 test('modifier(String)', function () {
-  // eslint-disable-next-line
-  const { modifier } = require('../src/bem')
-
-  expect(modifier('button', 'default')).toStrictEqual(['button--default'])
+  expect(modifier('button', 'default')).toStrictEqual('button--default')
 })
 
 test('modifier(Number)', function () {
-  // eslint-disable-next-line
-  const { modifier } = require('../src/bem')
-
-  expect(modifier('col', 0)).toStrictEqual(['col--0'])
+  expect(modifier('col', 0)).toStrictEqual('col--0')
 })
 
 test('modifier(Falsy)', function () {
-  // eslint-disable-next-line
-  const { modifier } = require('../src/bem')
-
   expect(modifier('button', false)).toStrictEqual([])
   expect(modifier('button', null)).toStrictEqual([])
   expect(modifier('button', undefined)).toStrictEqual([])
 })
 
 test('modifier(Object)', function () {
-  // eslint-disable-next-line
-  const { modifier } = require('../src/bem')
-
   const result = modifier('button', { foo: true, danger: false })
   const expected = ['button--foo']
 
@@ -40,9 +28,6 @@ test('modifier(Object)', function () {
 })
 
 test('modifier(Primitives)', function () {
-  // eslint-disable-next-line
-  const { modifier } = require('../src/bem')
-
   const result = modifier(
     'button',
     { foo: true, danger: false },
@@ -60,24 +45,15 @@ test('modifier(Primitives)', function () {
 
 test('modifier(globalConfig)', function () {
   jest.doMock('../src/config', () => {
-    return {
-      separator: {
-        element: '__',
-        modifier: '--',
-        state: '-',
-      },
-    }
+    return { separator: { modifier: '--' } }
   })
 
   // eslint-disable-next-line
-  const config = require('../src/config')
+  const { separator, modifier } = require('../src/index')
 
-  // eslint-disable-next-line
-  const { modifier } = require('../src/bem')
+  expect(modifier('button', 'default')).toStrictEqual('button--default')
 
-  expect(modifier('button', 'default')).toStrictEqual(['button--default'])
+  separator.modifier = '-'
 
-  config.separator.modifier = '-'
-
-  expect(modifier('button', 'default')).toStrictEqual(['button-default'])
+  expect(modifier('button', 'default')).toStrictEqual('button-default')
 })

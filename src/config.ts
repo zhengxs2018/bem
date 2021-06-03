@@ -1,15 +1,21 @@
-import type { Separator, Namespace } from './types'
+import type { Namespace, Separator } from './types'
 
 /**
- * @example <caption>修改全局配置</caption>
+ * 命名空间
+ *
+ * @example <caption>修改命名空间</caption>
  *
  * ```ts
  * import BEM, { component } from '@zhengxs/bem'
  *
- * // 修改全局命名空间
+ * // 默认以 c 开头
+ * component('button')
+ * // c-button
+ *
+ * // 修改默认配置
  * BEM.namespace.component = 'md'
  *
- * // 读取全局配置
+ * // 只有在修改配置后面的才生效
  * component('button')
  * // md-button
  *
@@ -20,15 +26,11 @@ import type { Separator, Namespace } from './types'
  */
 export const namespace: Namespace = {
   component: 'c',
-  hack: '_',
-  object: 'o',
-  scope: 's',
-  test: 'qa',
-  theme: 't',
-  utility: 'u',
 }
 
 /**
+ * 修饰符
+ *
  * @example <caption>修改 element 的修饰符</caption>
  *
  * ```ts

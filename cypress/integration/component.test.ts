@@ -11,7 +11,7 @@ describe('bem/component', () => {
     expect(component('button', 'ux')).to.deep.equal('ux-button')
   })
 
-  it('component(globalConfig)', () => {
+  it('component(config#namespace.component)', () => {
     expect(component('button')).to.deep.equal('c-button')
 
     BEM.namespace.component = 'd'

@@ -1,43 +1,30 @@
 /// <reference types="@types/jest" />
 
-jest.mock('../src/config')
+import { component } from '../src/index'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
 test('component()', function () {
-  // eslint-disable-next-line
-  const { component } = require('../src/bem')
-
   expect(component('button')).toStrictEqual('c-button')
 })
 
 test('component(namespace)', function () {
-  // eslint-disable-next-line
-  const { component } = require('../src/bem')
-
   expect(component('button', 'ux')).toStrictEqual('ux-button')
 })
 
-test('component(globalConfig)', function () {
+test('component(namespace)', function () {
   jest.doMock('../src/config', () => {
-    return {
-      namespace: {
-        component: 'c',
-      },
-    }
+    return { namespace: { component: 'f' } }
   })
 
   // eslint-disable-next-line
-  const config = require('../src/config')
+  const { namespace, component } = require('../src/index')
 
-  // eslint-disable-next-line
-  const { component } = require('../src/bem')
+  expect(component('button')).toStrictEqual('f-button')
 
-  expect(component('button')).toStrictEqual('c-button')
-
-  config.namespace.component = 'd'
+  namespace.component = 'd'
 
   expect(component('button')).toStrictEqual('d-button')
 

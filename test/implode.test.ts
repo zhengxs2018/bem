@@ -1,8 +1,8 @@
 /// <reference types="@types/jest" />
 
-import { implode } from '../src/functions'
+import { implode } from '../src/implode'
 
-test('test implode(selector=primitives)', function () {
+test('test implode(selector=string | number)', function () {
   expect(implode('button', 'icon', '-')).toStrictEqual('button-icon')
   expect(implode('col', 1, '-')).toStrictEqual('col-1')
 })

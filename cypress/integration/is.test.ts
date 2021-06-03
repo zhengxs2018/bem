@@ -4,11 +4,11 @@ import { is } from '../../src/index'
 
 describe('bem/is', () => {
   it('is(String)', () => {
-    expect(is('loading')).to.deep.equal(['is-loading'])
+    expect(is('loading')).to.deep.equal('is-loading')
   })
 
   it('is(Number)', () => {
-    expect(is(0)).to.deep.equal(['is-0'])
+    expect(is(0)).to.deep.equal('is-0')
   })
 
   it('is(Falsy)', () => {

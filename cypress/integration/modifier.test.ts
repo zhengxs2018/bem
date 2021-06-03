@@ -4,11 +4,11 @@ import BEM, { modifier } from '../../src/index'
 
 describe('bem/modifier', () => {
   it('modifier(String)', () => {
-    expect(modifier('button', 'default')).to.deep.equal(['button--default'])
+    expect(modifier('button', 'default')).to.deep.equal('button--default')
   })
 
   it('modifier(Number)', () => {
-    expect(modifier('col', 0)).to.deep.equal(['col--0'])
+    expect(modifier('col', 0)).to.deep.equal('col--0')
   })
 
   it('modifier(Falsy)', () => {
@@ -46,11 +46,11 @@ describe('bem/modifier', () => {
     expect(result).to.deep.equal(expected)
   })
 
-  it('modifier(globalConfig)', () => {
-    expect(modifier('button', 'default')).to.deep.equal(['button--default'])
+  it('modifier(config#separator.state)', () => {
+    expect(modifier('button', 'default')).to.deep.equal('button--default')
 
     BEM.separator.modifier = '-'
 
-    expect(modifier('button', 'default')).to.deep.equal(['button-default'])
+    expect(modifier('button', 'default')).to.deep.equal('button-default')
   })
 })

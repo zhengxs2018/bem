@@ -1,38 +1,26 @@
 /// <reference types="@types/jest" />
 
-jest.mock('../src/config')
+import { element } from '../src/index'
 
 beforeEach(() => {
   jest.resetModules()
 })
 
 test('element(String)', function () {
-  // eslint-disable-next-line
-  const { element } = require('../src/bem')
-
-  expect(element('button', 'icon')).toStrictEqual(['button__icon'])
+  expect(element('button', 'icon')).toStrictEqual('button__icon')
 })
 
 test('element(Number)', function () {
-  // eslint-disable-next-line
-  const { element } = require('../src/bem')
-
-  expect(element('col', 0)).toStrictEqual(['col__0'])
+  expect(element('col', 0)).toStrictEqual('col__0')
 })
 
 test('element(Falsy)', function () {
-  // eslint-disable-next-line
-  const { element } = require('../src/bem')
-
   expect(element('button', false)).toStrictEqual([])
   expect(element('button', null)).toStrictEqual([])
   expect(element('button', undefined)).toStrictEqual([])
 })
 
 test('element(Object)', function () {
-  // eslint-disable-next-line
-  const { element } = require('../src/bem')
-
   const result = element('button', { foo: true, text: false })
   const expected = ['button__foo']
 
@@ -40,9 +28,6 @@ test('element(Object)', function () {
 })
 
 test('element(Primitives)', function () {
-  // eslint-disable-next-line
-  const { element } = require('../src/bem')
-
   const result = element(
     'button',
     { foo: true, text: false },
@@ -58,26 +43,17 @@ test('element(Primitives)', function () {
   expect(result).toStrictEqual(expected)
 })
 
-test('element(globalConfig)', function () {
+test('element(separator)', function () {
   jest.doMock('../src/config', () => {
-    return {
-      separator: {
-        element: '__',
-        modifier: '--',
-        state: '-',
-      },
-    }
+    return { separator: { element: '__' } }
   })
 
   // eslint-disable-next-line
-  const config = require('../src/config')
+  const { separator, element } = require('../src/index')
 
-  // eslint-disable-next-line
-  const { element } = require('../src/bem')
+  expect(element('button', 'icon')).toStrictEqual('button__icon')
 
-  expect(element('button', 'icon')).toStrictEqual(['button__icon'])
+  separator.element = '-'
 
-  config.separator.element = '-'
-
-  expect(element('button', 'icon')).toStrictEqual(['button-icon'])
+  expect(element('button', 'icon')).toStrictEqual('button-icon')
 })
