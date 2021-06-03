@@ -1,20 +1,66 @@
-# @zhengxs/bem
-
-[![lang](https://img.shields.io/badge/lang-typescript-informational?style=flat)](https://www.typescriptlang.org/)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat)](https://github.com/prettier/prettier)
-[![npm version](https://img.shields.io/npm/v/%40zhengxs%2Fbem.svg?style=flat)](https://www.npmjs.com/package/%40zhengxs%2Fbem)
-[![Downloads](https://img.shields.io/npm/dt/%40zhengxs%2Fbem.svg?style=flat)](https://www.npmjs.com/package/%40zhengxs%2Fbem)
-[![Downloads](https://img.shields.io/npm/dm/%40zhengxs%2Fbem.svg?style=flat)](https://www.npmjs.com/package/%40zhengxs%2Fbem)
-[![Gzip Size](http://img.badgesize.io/https://unpkg.com/@zhengxs/bem/dist/bem.min.js?compression=gzip&style=flat)](https://unpkg.com/@zhengxs/bem/dist/bem.min.js)
-[![Dependency Status](https://david-dm.org/zhengxs2018/bem.SVG)](https://david-dm.org/zhengxs2018/bem?type=dev)
-[![devDependency Status](https://david-dm.org/zhengxs2018/bem/dev-status.svg)](https://david-dm.org/zhengxs2018/bem?type=dev)
-[![bem](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/pj64uz/main&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/pj64uz/runs)
-[![Node.js CI](https://github.com/zhengxs2018/bem/actions/workflows/tests.yaml/badge.svg)](https://github.com/zhengxs2018/bem/actions/workflows/tests.yaml)
-![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat)
-
----
+<div align="center">
+  <h1>
+   <br/>
+    <br/>
+    👍
+    <br />
+    @zhengxs/bem
+    <br />
+    <br />
+  </h1>
+  <sup>
+    <br />
+    <br />
+    <a href="https://www.typescriptlang.org">
+      <img src="https://img.shields.io/badge/lang-typescript-informational?style=flat" alt="TypeScript" />
+    </a>
+    <a href="https://github.com/prettier/prettier">
+      <img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square" alt="code style: prettier" />
+    </a>
+    <a href="https://www.npmjs.com/package/@zhengxs/bem">
+      <img src="https://img.shields.io/npm/v/@zhengxs/bem.svg" alt="npm package" />
+    </a>
+    <a href="https://www.npmjs.com/package/@zhengxs/bem">
+      <img src="https://img.shields.io/npm/dt/@zhengxs/bem.svg" alt="npm downloads" />
+    </a>
+    <a href="https://www.npmjs.com/package/@zhengxs/bem">
+      <img src="https://img.shields.io/npm/dm/@zhengxs/bem.svg" alt="npm downloads" />
+    </a>
+    <a href="https://unpkg.com/@zhengxs/bem/dist/bem.min.js">
+      <img src="https://img.badgesize.io/https:/unpkg.com/@zhengxs/bem/dist/bem.min.js?compression=gzip&style=flat" alt="Gzip Size" />
+    </a>
+    <a href="https://david-dm.org/zhengxs2018/bem?type=dev">
+      <img src="https://david-dm.org/zhengxs2018/bem.svg" alt="Dependency Status" />
+    </a>
+    <a href="https://david-dm.org/zhengxs2018/bem?type=dev">
+      <img src="https://david-dm.org/zhengxs2018/bem/dev-status.svg" alt="DevDependency Status" />
+    </a>
+    <a href="https://dashboard.cypress.io/projects/pj64uz/runs">
+      <img src="https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/pj64uz/main&style=flat&logo=cypress" alt="Cypress" />
+    </a>
+    <a href="https://github.com/zhengxs2018/bem/actions/workflows/tests.yaml">
+      <img src="https://github.com/zhengxs2018/bem/actions/workflows/tests.yaml/badge.svg" alt="Github action" />
+    </a>
+    <a href="https://circleci.com/gh/streamich/@zhengxs/bem">
+      <img src="https://img.shields.io/npm/l/@zhengxs/bem.svg?style=flat-square" alt="License" />
+    </a>
+    <br />
+    <br />
+  </sup>
+  <div>轻量级无依赖的 bem 工具</div>
+  <br />
+  <br />
+  <br />
+  <pre>npm i <a href="https://www.npmjs.com/package/@zhengxs/bem">@zhengxs/bem</a> --save</pre>
+  <br />
+  <br />
+</div>
 
 ## 快速开始
+
+### 文档
+
+访问 [中文文档](https://zhengxs2018.github.io/bem/) 查看更详细的说明
 
 ### 安装
 
@@ -72,11 +118,12 @@ component('button', 'ux')
 // -> ux-button
 ```
 
-## 在线运行
+[Try in runkit](https://npm.runkit.com/@zhengxs/bem)
 
-<a href="https://npm.runkit.com/@zhengxs/bem">
-  <img src="https://static.runkitcdn.com/assets/images/brand/horizontal-logo-full.svg" height="44" alt="Try on RunKit">
-</a>
+## 推荐
+
+- [BEM 组织](https://github.com/bem)
+- [sass-bem](https://github.com/zgabievi/sass-bem)
 
 ## License
 
