@@ -47,7 +47,7 @@
     <br />
     <br />
   </sup>
-  <div>轻量级无依赖的 bem 工具</div>
+  <div>轻量级无依赖的 bem 工具，支持 nodejs 与浏览器。</div>
   <br />
   <br />
   <br />
@@ -70,10 +70,10 @@ $ npm i @zhengxs/bem --save
 
 ### 使用
 
-bem
+**工具函数**
 
 ```ts
-import BEM, { component, element, modifier, state, is, has } from '@zhengxs/bem'
+import { component, element, modifier, state, is, has } from '@zhengxs/bem'
 
 component('button')
 // c-button
@@ -102,13 +102,18 @@ has('error', { danger: true, warning: false })
 // -> ["has-error", "has-danger"]
 ```
 
-修改全局命名空间
+**全局配置**
 
 ```ts
-import BEM, { component } from '@zhengxs/bem'
+import BEM, { component, element, modifier, state, is, has } from '@zhengxs/bem'
 
-// 修改全局命名空间
+// 命名空间
 BEM.namespace.component = 'md'
+
+// 修饰符
+BEM.separator.element = '-'
+BEM.separator.modifier = '__'
+BEM.separator.state = '--'
 
 component('button')
 // -> md-button
@@ -116,15 +121,61 @@ component('button')
 // 自定义的不受影响
 component('button', 'ux')
 // -> ux-button
+
+element('button', 'text')
+// ["button-text"]
+
+modifier('button', 'primary')
+// ["button__primary"]
+
+state('is', 'loading')
+// ["is--loading"]
+
+is('loading')
+// ["is--loading"]
+
+has('error')
+// ["has--error"]
+```
+
+### 在线运行
+
+```js
+const { component, element, modifier, state, is, has } = require('@zhengxs/bem')
+
+component('button')
+// c-button
+
+element(
+  'cell',
+  'left-icon',
+  ['title', 'label'],
+  { 'right-icon': true, value: false },
+  null,
+  false,
+  undefined
+)
+// -> ["cell__left-icon", "cell__title", "cell__label", "cell__right-icon"]
+
+modifier('button', 'default')
+// -> "button--default"
+
+state('is', 'loading', ['disabled'], { readonly: true })
+// -> ["is-loading", "is-disabled", "is-readonly"]
+
+is('loading', 'disabled')
+// -> ["is-loading", "is-disabled"]
+
+has('error', { danger: true, warning: false })
+// -> ["has-error", "has-danger"]
 ```
 
 [Try in runkit](https://npm.runkit.com/@zhengxs/bem)
 
-## 推荐
+## 感谢
 
-- [BEM 组织](https://github.com/bem)
-- [sass-bem](https://github.com/zgabievi/sass-bem)
+- [sass-bem](https://github.com/zgabievi/sass-bem) - 从中获得了一些灵感
 
 ## License
 
-- MIT
+MIT
