@@ -1,4 +1,8 @@
-# 1.0.0 (2021-06-04)
+## [1.0.1](https://github.com/zhengxs2018/bem/compare/v1.0.0...v1.0.1) (2021-06-04)
+
+
+
+# [1.0.0](https://github.com/zhengxs2018/bem/compare/38b81fbc496eee529cd3058e79fb10d13311cbe3...v1.0.0) (2021-06-04)
 
 
 ### Features
