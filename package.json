@@ -9,7 +9,7 @@
     "bem"
   ],
   "scripts": {
-    "prebuild": "node ./tools/clean.js",
+    "prebuild": "npm run clean",
     "build": "rollup -c rollup.config.js",
     "postbuild": "tsc --emitDeclarationOnly",
     "lint": "eslint \"**/*.{ts,js}\"",
@@ -21,6 +21,7 @@
     "api": "api-extractor run",
     "doc": "typedoc",
     "release": "typedoc && gh-pages -d ./dist-doc -t",
+    "clean": "node ./tools/clean.js",
     "commit": "cz",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0 && git add CHANGELOG.md",
     "preversion": "npm run lint && npm test",
