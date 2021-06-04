@@ -70,7 +70,7 @@ $ npm i @zhengxs/bem --save
 
 ### 使用
 
-**工具函数**
+公共函数
 
 ```ts
 import { component, element, modifier, state, is, has } from '@zhengxs/bem'
@@ -102,30 +102,14 @@ has('error', { danger: true, warning: false })
 // -> ["has-error", "has-danger"]
 ```
 
-**全局配置**
-
-```ts
-import BEM, { component, element, modifier, state, is, has } from '@zhengxs/bem'
-
-// 命名空间
-BEM.namespace.component = 'md'
-
-component('button')
-// -> md-button
-
-// 自定义的不受影响
-component('button', 'ux')
-// -> ux-button
-```
-
-**命名空间**
+独立命名空间
 
 ```js
-import { createNamespace } from '@zhengxs/bem'
+import { createBEM } from '@zhengxs/bem'
 
-const [name, bem] = createNamespace('button', {
+const bem = createBEM({
   namespace: {
-    component: 'md'
+    component: 'md',
   },
   // 可选
   // separator: {
@@ -135,14 +119,31 @@ const [name, bem] = createNamespace('button', {
   // }
 })
 
+const [name, button] = bem('button')
+
 console.log(name)
-// -> md-button
+// -> ux-button
 
-console.log(bem.element('text'))
-// "md-button__text"
+console.log(button.element('icon'))
+// -> "ux-button__icon"
 
-console.log(bem.modifier('primary'))
-// "md-button--primary"
+console.log(button.elem('icon')) // alias for element
+// -> "ux-button__icon"
+
+console.log(button.modifier('primary'))
+// -> "ux-button--primary"
+
+console.log(button.mod('primary')) // alias for modifier
+// -> "ux-button--primary"
+
+console.log(button.state('is', 'loading'))
+// -> "is-loading"
+
+console.log(button.is('loading'))
+// -> "is-loading"
+
+console.log(button.has('error'))
+// -> "has-error"
 ```
 
 ## 在线运行
@@ -155,30 +156,33 @@ const { component, element, modifier, state, is, has } = bem
 // 修改全局命名空间
 bem.namespace.component = 'md'
 
-component('button')
+console.log(component('button'))
 // md-button
 
-element(
-  'cell',
-  'left-icon',
-  ['title', 'label'],
-  { 'right-icon': true, value: false },
-  null,
-  false,
-  undefined
+console.log(
+  // modifier 和 state 类同
+  element(
+    'cell',
+    'left-icon',
+    ['title', 'label'],
+    { 'right-icon': true, value: false },
+    null,
+    false,
+    undefined
+  )
 )
 // -> ["cell__left-icon", "cell__title", "cell__label", "cell__right-icon"]
 
-modifier('button', 'default')
+console.log(modifier('button', 'default'))
 // -> "button--default"
 
-state('is', 'loading', ['disabled'], { readonly: true })
+console.log(state('is', 'loading', ['disabled'], { readonly: true }))
 // -> ["is-loading", "is-disabled", "is-readonly"]
 
-is('loading', 'disabled')
+console.log(is('loading', 'disabled'))
 // -> ["is-loading", "is-disabled"]
 
-has('error', { danger: true, warning: false })
+console.log(has('error', { danger: true, warning: false }))
 // -> ["has-error", "has-danger"]
 ```
 

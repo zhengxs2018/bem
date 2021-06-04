@@ -1,8 +1,8 @@
 import { version } from './version'
 import { namespace, separator } from './config'
 
-export { createNamespace } from './ns'
-export type { NamespaceOptions, BEM } from './ns'
+export { createBEM } from './create'
+export type { Config, Options, BEM } from './create'
 
 export { component, element, modifier, state, is, has } from './bem'
 

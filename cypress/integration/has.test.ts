@@ -3,7 +3,6 @@
 import { has } from '../../src/index'
 
 describe('bem/has', () => {
-
   it('has(String)', function () {
     expect(has('loading')).to.deep.equal('has-loading')
   })
