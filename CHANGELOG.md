@@ -1,4 +1,12 @@
-# [0.3.0](https://github.com/zhengxs2018/bem/compare/v0.1.2...v0.3.0) (2021-06-04)
+# [0.3.0](https://github.com/zhengxs2018/bem/compare/v0.2...v0.3.0) (2021-06-04)
+
+
+### Features
+
+* 添加 createBEM 数据，支持延迟获取配置
+
+
+# [0.2.0](https://github.com/zhengxs2018/bem/compare/v0.1.2...v0.2.0) (2021-06-04)
 
 
 ### Features
