@@ -95,6 +95,19 @@ console.log(button.component())
 console.log(button.element('icon'))
 //-> 'ux-button__icon'
 
+console.log(
+  // modifier 和 state 类同
+  element(
+    'left-icon',
+    ['title', 'label'],
+    { 'right-icon': true, value: false },
+    null,
+    false,
+    undefined
+  )
+)
+//-> ["ux-button__left-icon", "ux-button__title", "ux-button__label", "ux-button__right-icon"]
+
 console.log(button.modifier('default'))
 //-> 'ux-button--default'
 
