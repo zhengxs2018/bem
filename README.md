@@ -54,10 +54,8 @@
   <br />
   <br />
   <br />
-  <pre>npm i <a href="https://www.npmjs.com/package/@zhengxs/bem">@zhengxs/bem</a> --save</pre>
-  <br />
-  <br />
 </div>
+
 ## 快速开始
 
 ### 文档
@@ -71,41 +69,6 @@ $ npm i @zhengxs/bem --save
 ```
 
 ### 使用
-
-公共函数
-
-```ts
-import { component, element, modifier, state, is, has } from '@zhengxs/bem'
-
-component('button')
-// c-button
-
-// modifier 和 state 用法类同
-element(
-  'cell',
-  'left-icon',
-  ['title', 'label'],
-  { 'right-icon': true, value: false },
-  null,
-  false,
-  undefined
-)
-// -> ["cell__left-icon", "cell__title", "cell__label", "cell__right-icon"]
-
-modifier('button', 'default')
-// -> "button--default"
-
-state('is', 'loading', ['disabled'], { readonly: true })
-// -> ["is-loading", "is-disabled", "is-readonly"]
-
-is('loading', 'disabled')
-// -> ["is-loading", "is-disabled"]
-
-has('error', { danger: true, warning: false })
-// -> ["has-error", "has-danger"]
-```
-
-独立配置
 
 ```js
 import { createBEM } from '@zhengxs/bem'
