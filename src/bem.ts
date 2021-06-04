@@ -1,5 +1,5 @@
 import { separator, namespace } from './config'
-import { implode } from './implode'
+import { explode } from './implode-explode'
 
 import type { Argument } from './types'
 
@@ -60,7 +60,7 @@ export function component(name: string, prefix?: string): string {
 export function element(prefix: string, value: string | number): string
 export function element(prefix: string, ...args: Argument[]): string[]
 export function element(prefix: string, ...args: Argument[]): string | string[] {
-  return implode(prefix, args.length === 1 ? args[0] : args, separator['element'])
+  return explode(prefix, args, separator['element'])
 }
 
 /**
@@ -96,7 +96,7 @@ export function element(prefix: string, ...args: Argument[]): string | string[] 
 export function modifier(prefix: string, value: string | number): string
 export function modifier(prefix: string, ...args: Argument[]): string[]
 export function modifier(prefix: string, ...args: Argument[]): string | string[] {
-  return implode(prefix, args.length === 1 ? args[0] : args, separator['modifier'])
+  return explode(prefix, args, separator['modifier'])
 }
 
 /**
@@ -132,7 +132,7 @@ export function modifier(prefix: string, ...args: Argument[]): string | string[]
 export function state(prefix: string, value: string | number): string
 export function state(prefix: string, ...args: Argument[]): string[]
 export function state(prefix: string, ...args: Argument[]): string | string[] {
-  return implode(prefix, args.length === 1 ? args[0] : args, separator['state'])
+  return explode(prefix, args, separator['state'])
 }
 
 /**
