@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@zhengxs/bem - v0.1.2</title>
-	<meta name="description" content="Documentation for @zhengxs/bem - v0.1.2">
+	<title>@zhengxs/bem - v0.2.0</title>
+	<meta name="description" content="Documentation for @zhengxs/bem - v0.2.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 	<script async src="assets/js/search.js" id="search-script"></script>
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">@zhengxs/bem - v0.1.2</a>
+					<a href="index.html" class="title">@zhengxs/bem - v0.2.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -48,7 +48,7 @@
 	</div>
 	<div class="tsd-page-title">
 		<div class="container">
-			<h1>@zhengxs/bem - v0.1.2</h1>
+			<h1>@zhengxs/bem - v0.2.0</h1>
 		</div>
 	</div>
 </header>
@@ -163,32 +163,36 @@
 <span style="color: #008000">// 命名空间</span>
 <span style="color: #0070C1">BEM</span><span style="color: #000000">.</span><span style="color: #001080">namespace</span><span style="color: #000000">.</span><span style="color: #001080">component</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;md&#039;</span>
 
-<span style="color: #008000">// 修饰符</span>
-<span style="color: #0070C1">BEM</span><span style="color: #000000">.</span><span style="color: #001080">separator</span><span style="color: #000000">.</span><span style="color: #001080">element</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;-&#039;</span>
-<span style="color: #0070C1">BEM</span><span style="color: #000000">.</span><span style="color: #001080">separator</span><span style="color: #000000">.</span><span style="color: #001080">modifier</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;__&#039;</span>
-<span style="color: #0070C1">BEM</span><span style="color: #000000">.</span><span style="color: #001080">separator</span><span style="color: #000000">.</span><span style="color: #001080">state</span><span style="color: #000000"> = </span><span style="color: #A31515">&#039;--&#039;</span>
-
 <span style="color: #795E26">component</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;button&#039;</span><span style="color: #000000">)</span>
 <span style="color: #008000">// -&gt; md-button</span>
 
 <span style="color: #008000">// 自定义的不受影响</span>
 <span style="color: #795E26">component</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;button&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;ux&#039;</span><span style="color: #000000">)</span>
 <span style="color: #008000">// -&gt; ux-button</span>
+</code></pre>
+				<p><strong>命名空间</strong></p>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">createNamespace</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@zhengxs/bem&#039;</span>
 
-<span style="color: #795E26">element</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;button&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;text&#039;</span><span style="color: #000000">)</span>
-<span style="color: #008000">// [&quot;button-text&quot;]</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> [</span><span style="color: #0070C1">name</span><span style="color: #000000">, </span><span style="color: #0070C1">bem</span><span style="color: #000000">] = </span><span style="color: #795E26">createNamespace</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;button&#039;</span><span style="color: #000000">, {</span>
+<span style="color: #000000">  </span><span style="color: #001080">namespace:</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">component:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;md&#039;</span>
+<span style="color: #000000">  },</span>
+<span style="color: #000000">  </span><span style="color: #008000">// 可选</span>
+<span style="color: #000000">  </span><span style="color: #008000">// separator: {</span>
+<span style="color: #000000">  </span><span style="color: #008000">//   element: &#039;-&#039;,</span>
+<span style="color: #000000">  </span><span style="color: #008000">//   modifier: &#039;__&#039;,</span>
+<span style="color: #000000">  </span><span style="color: #008000">//   state: &#039;-&#039;</span>
+<span style="color: #000000">  </span><span style="color: #008000">// }</span>
+<span style="color: #000000">})</span>
 
-<span style="color: #795E26">modifier</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;button&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;primary&#039;</span><span style="color: #000000">)</span>
-<span style="color: #008000">// [&quot;button__primary&quot;]</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">name</span><span style="color: #000000">)</span>
+<span style="color: #008000">// -&gt; md-button</span>
 
-<span style="color: #795E26">state</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;is&#039;</span><span style="color: #000000">, </span><span style="color: #A31515">&#039;loading&#039;</span><span style="color: #000000">)</span>
-<span style="color: #008000">// [&quot;is--loading&quot;]</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">bem</span><span style="color: #000000">.</span><span style="color: #795E26">element</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;text&#039;</span><span style="color: #000000">))</span>
+<span style="color: #008000">// &quot;md-button__text&quot;</span>
 
-<span style="color: #795E26">is</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;loading&#039;</span><span style="color: #000000">)</span>
-<span style="color: #008000">// [&quot;is--loading&quot;]</span>
-
-<span style="color: #795E26">has</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;error&#039;</span><span style="color: #000000">)</span>
-<span style="color: #008000">// [&quot;has--error&quot;]</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #001080">bem</span><span style="color: #000000">.</span><span style="color: #795E26">modifier</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;primary&#039;</span><span style="color: #000000">))</span>
+<span style="color: #008000">// &quot;md-button--primary&quot;</span>
 </code></pre>
 				<a href="#在线运行" id="在线运行" style="color: inherit; text-decoration: none;">
 					<h2>在线运行</h2>
@@ -227,6 +231,10 @@
 <span style="color: #008000">// -&gt; [&quot;has-error&quot;, &quot;has-danger&quot;]</span>
 </code></pre>
 				<p><a href="https://npm.runkit.com/@zhengxs/bem">Try in runkit</a></p>
+				<a href="#升级日志" id="升级日志" style="color: inherit; text-decoration: none;">
+					<h2>升级日志</h2>
+				</a>
+				<p><a href="./CHANGELOG.md">changelog</a></p>
 				<a href="#感谢" id="感谢" style="color: inherit; text-decoration: none;">
 					<h2>感谢</h2>
 				</a>
