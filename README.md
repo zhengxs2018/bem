@@ -97,7 +97,7 @@ console.log(button.element('icon'))
 
 console.log(
   // modifier 和 state 类同
-  element(
+  button.element(
     'left-icon',
     ['title', 'label'],
     { 'right-icon': true, value: false },
