@@ -30,10 +30,10 @@
       <img src="https://img.badgesize.io/https:/unpkg.com/@zhengxs/bem/dist/bem.min.js?compression=gzip&style=flat" alt="Gzip Size" />
     </a>
     <a href="https://david-dm.org/zhengxs2018/bem?type=dev">
-      <img src="https://david-dm.org/zhengxs2018/bem.svg" alt="Dependency Status" />
+      <img src="https://img.shields.io/david/zhengxs2018/bem" alt="Dependency Status" />
     </a>
     <a href="https://david-dm.org/zhengxs2018/bem?type=dev">
-      <img src="https://david-dm.org/zhengxs2018/bem/dev-status.svg" alt="DevDependency Status" />
+      <img src="https://img.shields.io/david/dev/zhengxs2018/bem" alt="DevDependency Status" />
     </a>
     <a href="https://dashboard.cypress.io/projects/pj64uz/runs">
       <img src="https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/pj64uz/main&style=flat&logo=cypress" alt="Cypress" />
