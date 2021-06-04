@@ -1,6 +1,6 @@
-import { separator, namespace } from './config'
-import { implode } from './implode'
 import { component } from './bem'
+import { separator } from './config'
+import { explode } from './implode-explode'
 
 import type { Argument, Namespace, Separator } from './types'
 
@@ -22,6 +22,8 @@ export interface BEM {
   modifier(...args: Argument[]): string[]
   mod(...args: Argument[]): string[]
 }
+
+const cache: Record<string, BEM> = {}
 
 /**
  * 创建命名空间
@@ -70,7 +72,7 @@ export interface BEM {
  * // -> "ux-button__icon"
  * ```
  *
- * @example <caption>自定义分割符</caption>
+ * @example <caption>自定义分隔符</caption>
  *
  * ```ts
  * const [name, bem] = createNamespace('button', {
@@ -81,23 +83,30 @@ export interface BEM {
  * // -> "c-button-icon"
  * ```
  */
-export function createNamespace(name: string, options: NamespaceOptions = {}): [string, BEM] {
+export function createNamespace(name: string, options: NamespaceOptions = {}): readonly [string, BEM] {
   const ns = options['namespace'] || {}
   const sep = options['separator'] || {}
 
-  const prefixName = component(name, ns['component'] || namespace['component'])
+  const prefixName = component(name, ns['component'])
+
+  // 服用同一个配置
+  if (prefixName in cache) {
+    return [prefixName, cache[prefixName] as BEM]
+  }
 
   function element(value: string | number): string
   function element(...args: Argument[]): string[]
   function element(...args: Argument[]): string | string[] {
-    return implode(prefixName, args.length === 1 ? args[0] : args, sep['element'] || separator['element'])
+    return explode(prefixName, args, sep['element'] || separator['element'])
   }
 
   function modifier(value: string | number): string
   function modifier(...args: Argument[]): string[]
   function modifier(...args: Argument[]): string | string[] {
-    return implode(prefixName, args.length === 1 ? args[0] : args, sep['modifier'] || separator['modifier'])
+    return explode(prefixName, args, sep['modifier'] || separator['modifier'])
   }
 
-  return [prefixName, { element, elem: element, modifier: modifier, mod: modifier }]
+  const bem: BEM = { element, elem: element, modifier: modifier, mod: modifier }
+
+  return [prefixName, bem]
 }

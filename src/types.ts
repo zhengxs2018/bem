@@ -1,6 +1,10 @@
-export type Value = string | number | false | undefined | null
+export type Value = string | number
 
-export type Argument = Value | Record<string, unknown> | Argument[]
+export type Falsy = false | undefined | null
+
+export type Mapping = Record<string, unknown>
+
+export type Argument = Value | Falsy | Mapping | Argument[]
 
 export interface Namespace {
   component: string
