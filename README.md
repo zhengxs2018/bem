@@ -38,6 +38,9 @@
     <a href="https://dashboard.cypress.io/projects/pj64uz/runs">
       <img src="https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/pj64uz/main&style=flat&logo=cypress" alt="Cypress" />
     </a>
+    <a href="https://codecov.io/gh/zhengxs2018/bem">
+      <img src="https://codecov.io/gh/zhengxs2018/bem/branch/main/graph/badge.svg" alt="License" />
+    </a>
     <a href="https://github.com/zhengxs2018/bem/actions/workflows/tests.yaml">
       <img src="https://github.com/zhengxs2018/bem/actions/workflows/tests.yaml/badge.svg" alt="Github action" />
     </a>
@@ -55,7 +58,6 @@
   <br />
   <br />
 </div>
-
 ## 快速开始
 
 ### 文档
