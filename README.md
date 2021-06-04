@@ -110,32 +110,39 @@ import BEM, { component, element, modifier, state, is, has } from '@zhengxs/bem'
 // 命名空间
 BEM.namespace.component = 'md'
 
-// 修饰符
-BEM.separator.element = '-'
-BEM.separator.modifier = '__'
-BEM.separator.state = '--'
-
 component('button')
 // -> md-button
 
 // 自定义的不受影响
 component('button', 'ux')
 // -> ux-button
+```
 
-element('button', 'text')
-// ["button-text"]
+**命名空间**
 
-modifier('button', 'primary')
-// ["button__primary"]
+```js
+import { createNamespace } from '@zhengxs/bem'
 
-state('is', 'loading')
-// ["is--loading"]
+const [name, bem] = createNamespace('button', {
+  namespace: {
+    component: 'md'
+  },
+  // 可选
+  // separator: {
+  //   element: '-',
+  //   modifier: '__',
+  //   state: '-'
+  // }
+})
 
-is('loading')
-// ["is--loading"]
+console.log(name)
+// -> md-button
 
-has('error')
-// ["has--error"]
+console.log(bem.element('text'))
+// "md-button__text"
+
+console.log(bem.modifier('primary'))
+// "md-button--primary"
 ```
 
 ## 在线运行
@@ -145,7 +152,7 @@ const bem = require('@zhengxs/bem')
 
 const { component, element, modifier, state, is, has } = bem
 
-// 命名空间
+// 修改全局命名空间
 bem.namespace.component = 'md'
 
 component('button')
@@ -176,6 +183,10 @@ has('error', { danger: true, warning: false })
 ```
 
 [Try in runkit](https://npm.runkit.com/@zhengxs/bem)
+
+## 升级日志
+
+[changelog](./CHANGELOG.md)
 
 ## 感谢
 
