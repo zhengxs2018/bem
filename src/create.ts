@@ -14,6 +14,8 @@ export interface Config {
 }
 
 export interface BEM {
+  component(): string
+
   element(value: string | number): string
   element(arg: Argument, ...other: Argument[]): string[]
   elem(value: string | number): string
@@ -37,77 +39,164 @@ export interface BEM {
 /**
  * 创建命名空间
  *
- * @param config - bem 配置
+ * @param options - 可选配置
  *
- * @example <caption>自定义组件前缀</caption>
+ * @example <caption>默认</caption>
  *
- * ```ts
- * const bem = createBEM({
- *   namespace: {
- *     component: 'ux'
- *   }
- * })
+ * ```js
+ * const bem = createBEM()
+ * const button = bem('button')
  *
- * const [name, button] = bem('button')
+ *  console.log(button.component())
+ * // -> 'c-button'
  *
- * console.log(name)
- * // -> ux-button
+ *  console.log(button.element('icon'))
+ * // -> 'c-button__icon'
+ *
+ *  console.log(button.elem('icon')) // alias for element
+ * // -> 'c-button__icon'
+ *
+ *  console.log(button.modifier('default'))
+ * // -> 'c-button--default'
+ *
+ *  console.log(button.mod('default')) // alias for modifier
+ * // -> 'c-button--default'
+ *
+ *  console.log(button.state('is', 'default'))
+ * // -> 'is-default'
+ *
+ *  console.log(button.is('loading'))
+ * // -> 'is-loading'
+ *
+ *  console.log(button.has('error'))
+ * // -> 'has-error'
+ *
+ * // 不管调用几次，拿到的都是同一个对象
+ *  console.log(button === bem('icon'))
+ * // -> true
+ *
+ * // 不同名称拿到的是不同的对象
+ *  console.log(button === bem('icon'))
+ *  // -> false
+ *
+ * // 不同的 create，即使是相同的名称拿到的也不一样的
+ *  console.log(button === createBEM()('button'))
+ * // -> false
+ * ```
+ *
+ * @example <caption>自定义前缀</caption>
+ *
+ * ```js
+ * const options = {
+ *   namespace: { component: 'ux' }
+ * }
+ *
+ * const bem = createBEM(options)
+ *
+ * const button = bem('button')
+ *
+ * console.log(button.component())
+ * //-> 'ux-button'
  *
  * console.log(button.element('icon'))
- * // -> "ux-button__icon"
+ * //-> 'ux-button__icon'
  *
- * console.log(button.elem('icon')) // alias for element
- * // -> "ux-button__icon"
+ * console.log(button.modifier('default'))
+ * //-> 'ux-button--default'
  *
- * console.log(button.modifier('primary'))
- * // -> "ux-button--primary"
+ * // 修改命名空间
+ * options['namespace']['component'] = 'md'
  *
- * console.log(button.mod('primary')) // alias for modifier
- * // -> "ux-button--primary"
+ * console.log(button.component())
+ * //-> 'md-button'
  *
- * console.log(button.state('is', 'loading'))
- * // -> "is-loading"
+ * console.log(button.element('icon'))
+ * //-> 'md-button__icon'
  *
- * console.log(button.is('loading'))
- * // -> "is-loading"
+ *  console.log(button.modifier('default'))
+ * //-> 'md-button--default'
  *
- * console.log(button.has('error'))
- * // -> "has-error"
+ * // 再次修改命名空间
+ * options['namespace']['component'] = 'c'
+ *
+ * console.log(button.component())
+ * //-> 'c-button'
+ *
+ * console.log(button.element('icon'))
+ * //-> 'c-button__icon'
+ *
+ * console.log(button.modifier('default'))
+ * //-> 'c-button--default'
+ *
+ * // 直接重置对象
+ * options['namespace'] = { 'component': 'ux' }
+ *
+ * console.log(button.component())
+ * //-> 'ux-button'
+ *
+ * console.log(button.element('icon'))
+ * //-> 'ux-button__icon'
+ *
+ * console.log(button.modifier('default'))
+ * //-> 'ux-button--default'
  * ```
  *
  * @example <caption>自定义分隔符</caption>
  *
- * ```ts
- * const bem = createBEM({
- *   namespace: {
- *     component: 'ux'
- *   },
+ * ```js
+ * const options = {
  *   separator: {
  *     element: '-',
  *     modifier: '-',
- *     state: '--'
+ *     state: '#',
  *   }
- * })
+ * }
  *
- * const [name, button] = bem('button')
+ * console.log(button.element('icon'))
+ * //-> 'c-button-icon'
  *
- * console.log(button.elem('icon'))
- * // -> "ux-button-icon"
+ * console.log(button.modifier('default'))
+ * //-> 'c-button-default'
  *
- * console.log(button.mod('primary'))
- * // -> "ux-button-primary"
- *
- * console.log(button.state('is', 'loading'))
- * // -> "is--loading"
+ * console.log(button.state('is', 'default'))
+ * //-> 'is#default'
  *
  * console.log(button.is('loading'))
- * // -> "is--loading"
+ * //-> 'is#loading'
  *
  * console.log(button.has('error'))
- * // -> "has--error"
+ * //-> 'has#error'
+ *
+ * // 修改单个修饰符
+ * options['separator']['element'] = '__'
+ *
+ * console.log(button.element('icon'))
+ * //-> 'c-button__icon'
+ *
+ * // 重置配置
+ * options['separator'] = {
+ *   element: '__',
+ *   modifier: '--',
+ *   state: '-',
+ * }
+ *
+ * console.log(button.element('icon'))
+ * //-> 'c-button__icon'
+ *
+ * console.log(button.modifier('default'))
+ * //-> 'c-button--default'
+ *
+ * console.log(button.state('is', 'loading'))
+ * //-> 'is-loading'
+ *
+ * console.log(button.is('loading'))
+ * //-> 'is-loading'
+ *
+ * console.log(button.has('error'))
+ * //-> 'has-error'
  * ```
  */
-export function createBEM(options: Options = {}): (name: string) => readonly [string, BEM] {
+export function createBEM(options: Options = {}): (block: string) => BEM {
   const cache: Record<string, BEM> = {}
 
   // 延迟合并配置
@@ -127,47 +216,54 @@ export function createBEM(options: Options = {}): (name: string) => readonly [st
     return defaultValue
   }
 
-  return (name: string): readonly [string, BEM] => {
-    const ns = getOpts('namespace', namespace)
-    const sep = getOpts('separator', separator)
+  return (block: string): BEM => {
+    if (block in cache) return cache[block] as BEM
 
-    const prefixName = [ns['component'], name].join('-')
+    function component() {
+      const ns = getOpts('namespace', namespace)
 
-    if (prefixName in cache) {
-      return [prefixName, cache[prefixName] as BEM]
+      return [ns['component'], block].join('-')
     }
 
     function element(value: string | number): string
     function element(...args: Argument[]): string[]
     function element(...args: Argument[]): string | string[] {
-      return explode(prefixName, args, sep['element'])
+      const sep = getOpts('separator', separator)
+
+      return explode(component(), args, sep['element'])
     }
 
     function modifier(value: string | number): string
     function modifier(...args: Argument[]): string[]
     function modifier(...args: Argument[]): string | string[] {
-      return explode(prefixName, args, sep['modifier'])
+      const sep = getOpts('separator', separator)
+      return explode(component(), args, sep['modifier'])
     }
 
     function state(prefix: string, value: string | number): string
     function state(prefix: string, ...args: Argument[]): string[]
     function state(prefix: string, ...args: Argument[]): string | string[] {
+      const sep = getOpts('separator', separator)
       return explode(prefix, args, sep['state'])
     }
 
     function is(value: string | number): string
     function is(...args: Argument[]): string[]
     function is(...args: Argument[]): string | string[] {
+      const sep = getOpts('separator', separator)
       return explode('is', args, sep['state'])
     }
 
     function has(value: string | number): string
     function has(...args: Argument[]): string[]
     function has(...args: Argument[]): string | string[] {
+      const sep = getOpts('separator', separator)
+
       return explode('has', args, sep['state'])
     }
 
     const bem: BEM = {
+      component,
       element,
       elem: element,
       modifier: modifier,
@@ -177,6 +273,6 @@ export function createBEM(options: Options = {}): (name: string) => readonly [st
       has,
     }
 
-    return [prefixName, (cache[prefixName] = bem)]
+    return (cache[block] = bem)
   }
 }

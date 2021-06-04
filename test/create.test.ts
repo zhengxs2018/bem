@@ -3,117 +3,106 @@
 import { createBEM } from '../src/index'
 import { Options } from '../src/index'
 
-test('createBEM(namespace)', function () {
-  const bem = createBEM({
-    namespace: {
-      component: 'ux',
-    },
-  })
+test('createBEM()', function () {
+  const bem = createBEM()
+  const button = bem('button')
 
-  const [name, button] = bem('button')
-
-  expect(name).toEqual('ux-button')
-
-  expect(button.element('icon')).toEqual('ux-button__icon')
-
-  expect(button.modifier('default')).toStrictEqual('ux-button--default')
-
+  expect(button.component()).toEqual('c-button')
+  expect(button.element('icon')).toEqual('c-button__icon')
+  expect(button.modifier('default')).toStrictEqual('c-button--default')
   expect(button.state('is', 'default')).toStrictEqual('is-default')
-
   expect(button.is('loading')).toStrictEqual('is-loading')
-
   expect(button.has('error')).toStrictEqual('has-error')
+
+  // 不管调用几次，拿到的都是同一个对象
+  expect(button).toBe(bem('button'))
+
+  // 不同名称拿到的是不同的对象
+  expect(button).not.toBe(bem('icon'))
+
+  // 不同的 create，即使是相同的名称拿到的也不一样的
+  expect(button).not.toBe(createBEM()('button'))
 })
 
-test('createBEM(separator)', function () {
-  const bem = createBEM({
-    namespace: {
-      component: 'ux',
-    },
-    separator: {
-      element: '-',
-      modifier: '-',
-      state: '--',
-    },
-  })
-
-  const [name, button] = bem('button')
-
-  expect(name).toEqual('ux-button')
-
-  expect(button.element('icon')).toEqual('ux-button-icon')
-
-  expect(button.modifier('default')).toStrictEqual('ux-button-default')
-
-  expect(button.state('is', 'default')).toStrictEqual('is--default')
-
-  expect(button.is('loading')).toStrictEqual('is--loading')
-
-  expect(button.has('error')).toStrictEqual('has--error')
-})
-
-test('createBEM(cache)', function () {
-  const options: Options = {}
-
-  const bem = createBEM(options)
-
-  const button = bem('button')[1]
-
-  expect(button).toBe(bem('button')[1])
-
-  options.separator =  {
-    element: '-'
+test('createBEM(namespace)', function () {
+  const options: Required<Pick<Options, 'namespace'>> = {
+    namespace: {},
   }
 
-  const button2 = bem('button')[1]
-
-  expect(button.elem('text')).toEqual(button2.elem('text'))
-  expect(options.separator).toStrictEqual({ element: '-', modifier: '--', state: '-' })
-
-  const button3 = bem('button')[1]
-  expect(button.elem('text')).toStrictEqual(button3.elem('text'))
-})
-
-test('createBEM(lazy)', function () {
-  const options: Options = {}
-
   const bem = createBEM(options)
 
-  const [buttonCls, btnBEM] = bem('button')
+  const button = bem('button')
 
-  expect(buttonCls).toEqual('c-button')
+  expect(button.component()).toEqual('c-button')
+  expect(button.element('icon')).toEqual('c-button__icon')
+  expect(button.modifier('default')).toStrictEqual('c-button--default')
 
-  expect(btnBEM.element('icon')).toEqual('c-button__icon')
+  options['namespace']['component'] = 'md'
 
-  expect(btnBEM.modifier('default')).toStrictEqual('c-button--default')
+  expect(button.component()).toEqual('md-button')
+  expect(button.element('icon')).toEqual('md-button__icon')
+  expect(button.modifier('default')).toStrictEqual('md-button--default')
 
-  expect(btnBEM.state('is', 'default')).toStrictEqual('is-default')
+  options['namespace']['component'] = 'c'
 
-  expect(btnBEM.is('loading')).toStrictEqual('is-loading')
+  expect(button.component()).toEqual('c-button')
+  expect(button.element('icon')).toEqual('c-button__icon')
+  expect(button.modifier('default')).toStrictEqual('c-button--default')
 
-  expect(btnBEM.has('error')).toStrictEqual('has-error')
-
-  options.namespace = {
+  options['namespace'] = {
     component: 'ux',
   }
 
-  options.separator = {
-    element: '-',
-    modifier: '-',
-    state: '--',
+  expect(button.component()).toEqual('ux-button')
+  expect(button.element('icon')).toEqual('ux-button__icon')
+  expect(button.modifier('default')).toStrictEqual('ux-button--default')
+})
+
+test('createBEM(separator)', function () {
+  const options: Required<Pick<Options, 'separator'>> = {
+    separator: {},
   }
 
-  const [iconCls, iconBEM] = bem('icon')
+  const bem = createBEM(options)
 
-  expect(iconCls).toEqual('ux-icon')
+  const button = bem('button')
 
-  expect(iconBEM.element('info')).toEqual('ux-icon-info')
+  expect(button.element('icon')).toEqual('c-button__icon')
+  expect(button.modifier('default')).toStrictEqual('c-button--default')
+  expect(button.state('is', 'default')).toStrictEqual('is-default')
+  expect(button.is('loading')).toStrictEqual('is-loading')
+  expect(button.has('error')).toStrictEqual('has-error')
 
-  expect(iconBEM.modifier('dot')).toStrictEqual('ux-icon-dot')
+  options['separator']['element'] = '-'
+  expect(button.element('icon')).toEqual('c-button-icon')
 
-  expect(iconBEM.state('is', 'default')).toStrictEqual('is--default')
+  options['separator']['element'] = '__'
+  expect(button.element('icon')).toEqual('c-button__icon')
 
-  expect(iconBEM.is('loading')).toStrictEqual('is--loading')
+  options['separator']['modifier'] = '-'
+  expect(button.modifier('default')).toStrictEqual('c-button-default')
 
-  expect(iconBEM.has('error')).toStrictEqual('has--error')
+  options['separator']['modifier'] = '--'
+  expect(button.modifier('default')).toStrictEqual('c-button--default')
+
+  options['separator']['state'] = '#'
+  expect(button.state('is', 'default')).toStrictEqual('is#default')
+  expect(button.is('loading')).toStrictEqual('is#loading')
+  expect(button.has('error')).toStrictEqual('has#error')
+
+  options['separator']['state'] = '-'
+  expect(button.state('is', 'default')).toStrictEqual('is-default')
+  expect(button.is('loading')).toStrictEqual('is-loading')
+  expect(button.has('error')).toStrictEqual('has-error')
+
+  options['separator'] = {
+    element: '-',
+    modifier: '-',
+    state: '#',
+  }
+  expect(button.element('icon')).toEqual('c-button-icon')
+  expect(button.modifier('default')).toStrictEqual('c-button-default')
+  expect(button.state('is', 'default')).toStrictEqual('is#default')
+  expect(button.is('loading')).toStrictEqual('is#loading')
+  expect(button.has('error')).toStrictEqual('has#error')
 })

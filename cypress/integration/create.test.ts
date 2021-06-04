@@ -4,96 +4,107 @@ import { createBEM } from '../../src/index'
 import { Options } from '../../src/index'
 
 describe('create/createBEM', () => {
-  it('createBEM(namespace)', function () {
-    const bem = createBEM({
-      namespace: {
-        component: 'ux',
-      },
-    })
+  it('createBEM()', function () {
+    const bem = createBEM()
+    const button = bem('button')
 
-    const [name, button] = bem('button')
-
-    expect(name).to.deep.equal('ux-button')
-
-    expect(button.element('icon')).to.deep.equal('ux-button__icon')
-
-    expect(button.modifier('default')).to.deep.equal('ux-button--default')
-
+    expect(button.component()).to.deep.equal('c-button')
+    expect(button.element('icon')).to.deep.equal('c-button__icon')
+    expect(button.modifier('default')).to.deep.equal('c-button--default')
     expect(button.state('is', 'default')).to.deep.equal('is-default')
-
     expect(button.is('loading')).to.deep.equal('is-loading')
-
     expect(button.has('error')).to.deep.equal('has-error')
+
+    // 不管调用几次，拿到的都是同一个对象
+    expect(button).to.equal(bem('button'))
+
+    // 不同名称拿到的是不同的对象
+    expect(button).not.to.equal(bem('icon'))
+
+    // 不同的 create，即使是相同的名称拿到的也不一样的
+    expect(button).not.to.equal(createBEM()('button'))
   })
 
-  it('createBEM(separator)', function () {
-    const bem = createBEM({
-      namespace: {
-        component: 'ux',
-      },
-      separator: {
-        element: '-',
-        modifier: '-',
-        state: '--',
-      },
-    })
-
-    const [name, button] = bem('button')
-
-    expect(name).to.deep.equal('ux-button')
-
-    expect(button.element('icon')).to.deep.equal('ux-button-icon')
-
-    expect(button.modifier('default')).to.deep.equal('ux-button-default')
-
-    expect(button.state('is', 'default')).to.deep.equal('is--default')
-
-    expect(button.is('loading')).to.deep.equal('is--loading')
-
-    expect(button.has('error')).to.deep.equal('has--error')
-  })
-
-  it('createBEM(lazy)', function () {
-    const options: Options = {}
+  it('createBEM(namespace)', function () {
+    const options: Required<Pick<Options, 'namespace'>> = {
+      namespace: {},
+    }
 
     const bem = createBEM(options)
 
-    const [buttonCls, btnBEM] = bem('button')
+    const button = bem('button')
 
-    expect(buttonCls).to.deep.equal('c-button')
+    expect(button.component()).to.deep.equal('c-button')
+    expect(button.element('icon')).to.deep.equal('c-button__icon')
+    expect(button.modifier('default')).to.deep.equal('c-button--default')
 
-    expect(btnBEM.element('icon')).to.deep.equal('c-button__icon')
+    options['namespace']['component'] = 'md'
 
-    expect(btnBEM.modifier('default')).to.deep.equal('c-button--default')
+    expect(button.component()).to.deep.equal('md-button')
+    expect(button.element('icon')).to.deep.equal('md-button__icon')
+    expect(button.modifier('default')).to.deep.equal('md-button--default')
 
-    expect(btnBEM.state('is', 'default')).to.deep.equal('is-default')
+    options['namespace']['component'] = 'c'
 
-    expect(btnBEM.is('loading')).to.deep.equal('is-loading')
+    expect(button.component()).to.deep.equal('c-button')
+    expect(button.element('icon')).to.deep.equal('c-button__icon')
+    expect(button.modifier('default')).to.deep.equal('c-button--default')
 
-    expect(btnBEM.has('error')).to.deep.equal('has-error')
-
-    options.namespace = {
+    options['namespace'] = {
       component: 'ux',
     }
 
-    options.separator = {
-      element: '-',
-      modifier: '-',
-      state: '--',
+    expect(button.component()).to.deep.equal('ux-button')
+    expect(button.element('icon')).to.deep.equal('ux-button__icon')
+    expect(button.modifier('default')).to.deep.equal('ux-button--default')
+  })
+
+  it('createBEM(separator)', function () {
+    const options: Required<Pick<Options, 'separator'>> = {
+      separator: {},
     }
 
-    const [iconCls, iconBEM] = bem('icon')
+    const bem = createBEM(options)
 
-    expect(iconCls).to.deep.equal('ux-icon')
+    const button = bem('button')
 
-    expect(iconBEM.element('info')).to.deep.equal('ux-icon-info')
+    expect(button.element('icon')).to.deep.equal('c-button__icon')
+    expect(button.modifier('default')).to.deep.equal('c-button--default')
+    expect(button.state('is', 'default')).to.deep.equal('is-default')
+    expect(button.is('loading')).to.deep.equal('is-loading')
+    expect(button.has('error')).to.deep.equal('has-error')
 
-    expect(iconBEM.modifier('dot')).to.deep.equal('ux-icon-dot')
+    options['separator']['element'] = '-'
+    expect(button.element('icon')).to.deep.equal('c-button-icon')
 
-    expect(iconBEM.state('is', 'default')).to.deep.equal('is--default')
+    options['separator']['element'] = '__'
+    expect(button.element('icon')).to.deep.equal('c-button__icon')
 
-    expect(iconBEM.is('loading')).to.deep.equal('is--loading')
+    options['separator']['modifier'] = '-'
+    expect(button.modifier('default')).to.deep.equal('c-button-default')
 
-    expect(iconBEM.has('error')).to.deep.equal('has--error')
+    options['separator']['modifier'] = '--'
+    expect(button.modifier('default')).to.deep.equal('c-button--default')
+
+    options['separator']['state'] = '#'
+    expect(button.state('is', 'default')).to.deep.equal('is#default')
+    expect(button.is('loading')).to.deep.equal('is#loading')
+    expect(button.has('error')).to.deep.equal('has#error')
+
+    options['separator']['state'] = '-'
+    expect(button.state('is', 'default')).to.deep.equal('is-default')
+    expect(button.is('loading')).to.deep.equal('is-loading')
+    expect(button.has('error')).to.deep.equal('has-error')
+
+    options['separator'] = {
+      element: '-',
+      modifier: '-',
+      state: '#',
+    }
+    expect(button.element('icon')).to.deep.equal('c-button-icon')
+    expect(button.modifier('default')).to.deep.equal('c-button-default')
+    expect(button.state('is', 'default')).to.deep.equal('is#default')
+    expect(button.is('loading')).to.deep.equal('is#loading')
+    expect(button.has('error')).to.deep.equal('has#error')
   })
 })

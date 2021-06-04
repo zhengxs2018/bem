@@ -80,6 +80,7 @@ import { component, element, modifier, state, is, has } from '@zhengxs/bem'
 component('button')
 // c-button
 
+// modifier 和 state 用法类同
 element(
   'cell',
   'left-icon',
@@ -104,14 +105,14 @@ has('error', { danger: true, warning: false })
 // -> ["has-error", "has-danger"]
 ```
 
-独立命名空间
+独立配置
 
 ```js
 import { createBEM } from '@zhengxs/bem'
 
-const bem = createBEM({
+const options = {
   namespace: {
-    component: 'md',
+    component: 'ux',
   },
   // 可选
   // separator: {
@@ -119,33 +120,43 @@ const bem = createBEM({
   //   modifier: '__',
   //   state: '-'
   // }
-})
+}
 
-const [name, button] = bem('button')
+const bem = createBEM(options)
 
-console.log(name)
-// -> ux-button
+const button = bem('button')
+
+console.log(button.component())
+//-> 'ux-button'
 
 console.log(button.element('icon'))
-// -> "ux-button__icon"
+//-> 'ux-button__icon'
 
-console.log(button.elem('icon')) // alias for element
-// -> "ux-button__icon"
+console.log(button.modifier('default'))
+//-> 'ux-button--default'
 
-console.log(button.modifier('primary'))
-// -> "ux-button--primary"
+// 可以中途修改（不推荐）
+options['namespace']['component'] = 'md'
 
-console.log(button.mod('primary')) // alias for modifier
-// -> "ux-button--primary"
+console.log(button.component())
+//-> 'md-button'
 
-console.log(button.state('is', 'loading'))
-// -> "is-loading"
+console.log(button.element('icon'))
+//-> 'md-button__icon'
 
-console.log(button.is('loading'))
-// -> "is-loading"
+console.log(button.modifier('default'))
+//-> 'md-button--default'
 
-console.log(button.has('error'))
-// -> "has-error"
+// 不管调用几次，拿到的都是同一个对象
+console.log(button === bem('icon'))
+// -> true
+
+// 不同名称拿到的是不同的对象
+console.log(button === bem('icon'))
+// -> false
+
+// 不同的 create，即使是相同的名称拿到的也不一样的
+console.log(button === createBEM()('button'))
 ```
 
 ## 在线运行
