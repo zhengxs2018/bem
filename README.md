@@ -135,46 +135,6 @@ console.log(button === bem('icon'))
 console.log(button === createBEM()('button'))
 ```
 
-## 在线运行
-
-```js
-const bem = require('@zhengxs/bem')
-
-const { component, element, modifier, state, is, has } = bem
-
-// 修改全局命名空间
-bem.namespace.component = 'md'
-
-console.log(component('button'))
-// md-button
-
-console.log(
-  // modifier 和 state 类同
-  element(
-    'cell',
-    'left-icon',
-    ['title', 'label'],
-    { 'right-icon': true, value: false },
-    null,
-    false,
-    undefined
-  )
-)
-// -> ["cell__left-icon", "cell__title", "cell__label", "cell__right-icon"]
-
-console.log(modifier('button', 'default'))
-// -> "button--default"
-
-console.log(state('is', 'loading', ['disabled'], { readonly: true }))
-// -> ["is-loading", "is-disabled", "is-readonly"]
-
-console.log(is('loading', 'disabled'))
-// -> ["is-loading", "is-disabled"]
-
-console.log(has('error', { danger: true, warning: false }))
-// -> ["has-error", "has-danger"]
-```
-
 [Try in runkit](https://npm.runkit.com/@zhengxs/bem)
 
 ## 升级日志
