@@ -27,7 +27,11 @@ import type { Argument, Value } from './types'
  * // -> ["button__icon", "button__demo", "button__doc"]
  * ```
  */
-export function explode( namespace: string, list: Argument[], separator: string ): string | string[] {
+export function explode(
+  namespace: string,
+  list: Argument[],
+  separator: string
+): string | string[] {
   return implode(namespace, list.length === 1 ? list[0] : list, separator)
 }
 

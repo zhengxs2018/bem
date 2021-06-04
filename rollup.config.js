@@ -42,7 +42,7 @@ const umdConfig = merge(baseConfig, {
     format: 'umd',
     name: 'BEM',
     globals: {
-      tslib: 'tslib'
+      tslib: 'tslib',
     },
   },
 })
