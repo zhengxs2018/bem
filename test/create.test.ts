@@ -52,6 +52,28 @@ test('createBEM(separator)', function () {
   expect(button.has('error')).toStrictEqual('has--error')
 })
 
+test('createBEM(cache)', function () {
+  const options: Options = {}
+
+  const bem = createBEM(options)
+
+  const button = bem('button')[1]
+
+  expect(button).toBe(bem('button')[1])
+
+  options.separator =  {
+    element: '-'
+  }
+
+  const button2 = bem('button')[1]
+
+  expect(button.elem('text')).toEqual(button2.elem('text'))
+  expect(options.separator).toStrictEqual({ element: '-', modifier: '--', state: '-' })
+
+  const button3 = bem('button')[1]
+  expect(button.elem('text')).toStrictEqual(button3.elem('text'))
+})
+
 test('createBEM(lazy)', function () {
   const options: Options = {}
 
