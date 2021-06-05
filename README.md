@@ -124,7 +124,7 @@ console.log(button.modifier('default'))
 //-> 'md-button--default'
 
 // 不管调用几次，拿到的都是同一个对象
-console.log(button === bem('icon'))
+console.log(button === bem('button'))
 // -> true
 
 // 不同名称拿到的是不同的对象
