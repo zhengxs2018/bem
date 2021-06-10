@@ -36,6 +36,21 @@ export interface BEM {
   has(arg: Argument, ...other: Argument[]): string[]
 }
 
+export interface BEMStatic {
+  (block: string): BEM
+
+  component(name: string): string
+
+  state(prefix: string, value: string | number): string
+  state(prefix: string, arg: Argument, ...other: Argument[]): string[]
+
+  is(value: string | number): string
+  is(arg: Argument, ...other: Argument[]): string[]
+
+  has(value: string | number): string
+  has(arg: Argument, ...other: Argument[]): string[]
+}
+
 /**
  * 创建命名空间
  *
@@ -196,7 +211,7 @@ export interface BEM {
  * //-> 'has-error'
  * ```
  */
-export function createBEM(options: Options = {}): (block: string) => BEM {
+export function createBEM(options: Options = {}): BEMStatic {
   const cache: Record<string, BEM> = {}
 
   // 延迟合并配置
@@ -216,63 +231,70 @@ export function createBEM(options: Options = {}): (block: string) => BEM {
     return defaultValue
   }
 
-  return (block: string): BEM => {
-    if (block in cache) return cache[block] as BEM
+  function component(name: string) {
+    const ns = getOpts('namespace', namespace)
 
-    function component() {
-      const ns = getOpts('namespace', namespace)
+    return [ns['component'], name].join('-')
+  }
 
-      return [ns['component'], block].join('-')
-    }
+  function state(prefix: string, value: string | number): string
+  function state(prefix: string, ...args: Argument[]): string[]
+  function state(prefix: string, ...args: Argument[]): string | string[] {
+    const sep = getOpts('separator', separator)
+    return explode(prefix, args, sep['state'])
+  }
+
+  function is(value: string | number): string
+  function is(...args: Argument[]): string[]
+  function is(...args: Argument[]): string | string[] {
+    const sep = getOpts('separator', separator)
+    return explode('is', args, sep['state'])
+  }
+
+  function has(value: string | number): string
+  function has(...args: Argument[]): string[]
+  function has(...args: Argument[]): string | string[] {
+    const sep = getOpts('separator', separator)
+
+    return explode('has', args, sep['state'])
+  }
+
+  function create(name: string): BEM {
+    if (name in cache) return cache[name] as BEM
 
     function element(value: string | number): string
     function element(...args: Argument[]): string[]
     function element(...args: Argument[]): string | string[] {
       const sep = getOpts('separator', separator)
 
-      return explode(component(), args, sep['element'])
+      return explode(component(name), args, sep['element'])
     }
 
     function modifier(value: string | number): string
     function modifier(...args: Argument[]): string[]
     function modifier(...args: Argument[]): string | string[] {
       const sep = getOpts('separator', separator)
-      return explode(component(), args, sep['modifier'])
+      return explode(component(name), args, sep['modifier'])
     }
 
-    function state(prefix: string, value: string | number): string
-    function state(prefix: string, ...args: Argument[]): string[]
-    function state(prefix: string, ...args: Argument[]): string | string[] {
-      const sep = getOpts('separator', separator)
-      return explode(prefix, args, sep['state'])
-    }
-
-    function is(value: string | number): string
-    function is(...args: Argument[]): string[]
-    function is(...args: Argument[]): string | string[] {
-      const sep = getOpts('separator', separator)
-      return explode('is', args, sep['state'])
-    }
-
-    function has(value: string | number): string
-    function has(...args: Argument[]): string[]
-    function has(...args: Argument[]): string | string[] {
-      const sep = getOpts('separator', separator)
-
-      return explode('has', args, sep['state'])
-    }
-
-    const bem: BEM = {
-      component,
+    const bem: BEM = (cache[name] = {
+      component: () => component(name),
       element,
       elem: element,
-      modifier: modifier,
+      modifier,
       mod: modifier,
       state,
       is,
       has,
-    }
+    })
 
-    return (cache[block] = bem)
+    return bem
   }
+
+  create.component = component
+  create.state = state
+  create.is = is
+  create.has = has
+
+  return create
 }
