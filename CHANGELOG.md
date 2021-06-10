@@ -1,3 +1,12 @@
+# [1.1.0](https://github.com/zhengxs2018/bem/compare/v1.0.1...v1.1.0) (2021-06-10)
+
+
+### Features
+
+* createBEM 返回值添加静态函数 ([97de106](https://github.com/zhengxs2018/bem/commit/97de106af7dd236529d98e43bbbbc542cd3537dd))
+
+
+
 ## [1.0.1](https://github.com/zhengxs2018/bem/compare/v1.0.0...v1.0.1) (2021-06-04)
 
 
